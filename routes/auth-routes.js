@@ -6,7 +6,9 @@ router.get("/login",function(req,res){
 });
 
 router.get("/logout", function(req,res){
-	res.send("Will log you out ;)");
+	//res.send("Will log you out ;)");
+	req.logout();
+	res.redirect("/");
 });
 
 router.get("/google",passport.authenticate("google",{

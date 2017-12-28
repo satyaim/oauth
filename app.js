@@ -37,7 +37,7 @@ app.use("/auth",authRoutes);
 app.use("/profile",profileRoutes);
 //Set index.ejs for request at /
 app.get("/",function(req,res){
-	res.render("index");
+	res.render("index",{ user: req.user });
 });
 //Listen to port
 app.listen(3000,function(){
