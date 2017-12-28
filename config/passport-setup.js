@@ -4,6 +4,14 @@ const GoogleStrategy= require("passport-google-oauth20");
 const key= require("./keys");
 const User= require("../models/user-model");
 // Tell Passport We're using Google Strategy
+passport.serializeUser(function(user,done){
+	done(null,user.id);
+});
+passport.deserializeUser(function(id,done){
+	User.findById(id).then(function(user){
+		done(null,user);
+	});
+});
 passport.use(new GoogleStrategy(
 	{
 		callbackURL: "/auth/google/redirect",
@@ -17,14 +25,16 @@ passport.use(new GoogleStrategy(
 		User.findOne({ googleId: profile.id}).then(function(curr_user){
 			if(curr_user){
 				console.log("current user is" + curr_user);
+				done(null,curr_user);
 			}
 			else{
 					console.log("adding new user");
 				new User({
-					username: profile.displayname,
+					username: profile.displayName,
 					googleId: profile.id
 				}).save().then(function(new_user){
 					console.log("new user is" + new_user);
+					done(null,new_user);
 				});
 			}
 		});
