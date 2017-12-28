@@ -6,6 +6,15 @@ const authRoutes= require("./routes/auth-routes");
 const passportSetup= require("./config/passport-setup");
 //
 const app= express();
+//Obtain mongoose
+const mongoose= require("mongoose");
+//Obtain keys
+const keys= require("./config/keys");
+//Connect to mongoDB
+mongoose.connect(keys.mongoose.URI,function(err){
+	if(!err)
+		console.log("Connected to db");
+});
 //Set view Enjine to EJS
 app.set("view engine","ejs");
 //All requests meade to auth will be controlled by authRoutes
